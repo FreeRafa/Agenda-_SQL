@@ -1,0 +1,89 @@
+CREATE DATABASE AgendaSQL;
+
+USE AgendaSQL
+
+CREATE TABLE Pessoa
+(
+IDPessoa INT PRIMARY KEY IDENTITY (1,1),
+Nome NVARCHAR (150) NOT NULL,
+Telemovel NVARCHAR (30) NOT NULL,
+Email NVARCHAR (250) UNIQUE NOT NULL
+);
+
+CREATE TABLE Participante 
+(
+IDParticipante INT PRIMARY KEY IDENTITY (1,1),
+Empresa NVARCHAR (150) NOT NULL,
+IDPessoa INT NOT NULL,
+
+CONSTRAINT FK_PESSOA_PARTICIPANTE
+	FOREIGN KEY (IDPessoa)
+	REFERENCES Pessoa (IDPessoa)
+	ON DELETE CASCADE
+);
+
+CREATE TABLE Sala
+(
+IDSala INT PRIMARY KEY IDENTITY (1,1),
+NomeSala NVARCHAR (150) NOT NULL,
+Capacidade INT NOT NULL
+);
+
+CREATE TABLE Evento
+(
+IDEvento INT PRIMARY KEY IDENTITY (1,1),
+Titulo NVARCHAR (100) NOT NULL,
+Descricao NVARCHAR (250),
+DataInicio DATETIME NOT NULL, 
+DataFim DATETIME NOT NULL,
+CapacidadeMax INT NOT NULL,
+IDSala INT NOT NULL,
+
+CONSTRAINT FK_Sala_Evento
+	FOREIGN KEY (IDSala)
+	REFERENCES Sala (IDSala)
+);
+
+CREATE TABLE INSCRICAO
+(
+IDInscricao INT PRIMARY KEY IDENTITY (1,1),
+IDPARTICIPANTE INT NOT NULL,
+IDEVENTO INT NOT NULL,
+DataInscricao DATE NOT NULL,
+[STATUS] NVARCHAR(20) NOT NULL CHECK ([STATUS] IN ('Confirmada', 'Cancelada', 'Aguardando')),
+
+CONSTRAINT FK_Participante_Inscricao
+	FOREIGN KEY (IDParticipante)
+	REFERENCES Participante (IDParticipante),
+
+CONSTRAINT FK_Evento_Inscricao
+	FOREIGN KEY (IDEvento)
+	REFERENCES Evento (IDEvento)
+);
+
+CREATE TABLE Palestrante
+(
+IDPalestrante  INT PRIMARY KEY IDENTITY (1,1),
+Especializacao NVARCHAR (150),
+IDPessoa INT NOT NULL,
+
+CONSTRAINT FK_Pessoa_Palestrante
+	FOREIGN KEY (IDPessoa)
+	REFERENCES Pessoa (IDPessoa)
+);
+
+CREATE TABLE Evento_Palestra (
+IDEvento INT NOT NULL,
+IDPalestrante INT NOT NULL,
+
+CONSTRAINT PK_Evento_Palestra
+	PRIMARY KEY (IDEvento, IDPalestrante),
+
+CONSTRAINT FK_Evento_Palestra_Evento
+    FOREIGN KEY (IDEvento)
+    REFERENCES Evento (IDEvento),
+
+CONSTRAINT FK_Evento_Palestra_Palestrante
+    FOREIGN KEY (IDPalestrante)
+    REFERENCES Palestrante (IDPalestrante)
+);
