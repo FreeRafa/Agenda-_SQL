@@ -40,22 +40,47 @@ funções de agregação, funções de texto e de data
 */
 
 -- 001. Lista todas as colunas e todas as linhas da tabela Pessoa.
+SELECT * FROM Pessoa
+
 
 -- 002. Lista apenas o Nome e o Email de todas as pessoas.
+SELECT Nome, Email
+FROM Pessoa;
 
 -- 003. Lista as salas ordenadas por Capacidade, da maior para a menor.
+SELECT *
+FROM Sala
+ORDER BY Capacidade DESC;
 
 -- 004. Lista os títulos de todos os eventos por ordem alfabética.
+SELECT Titulo
+FROM Evento
+ORDER BY Titulo ASC;
 
 -- 005. Lista os eventos que decorrem na sala com IDSala = 1.
+SELECT *
+FROM Evento
+WHERE IDSala = 1;
 
 -- 006. Lista as salas com capacidade superior a 30.
+SELECT *
+FROM Sala
+WHERE Capacidade > 30;
 
 -- 007. Lista as pessoas cujo nome começa pela letra 'A'.
+SELECT *
+FROM Pessoa
+WHERE Nome LIKE 'A%';
 
 -- 008. Lista as pessoas cujo nome contém 'Santos'.
+SELECT *
+FROM Pessoa
+WHERE Nome LIKE '%Santos%'
 
 -- 009. Lista os eventos com CapacidadeMax entre 30 e 80 (usa BETWEEN).
+SELECT *
+FROM Evento
+WHERE CapacidadeMax BETWEEN 30 AND 80;
 
 -- 010. Lista as empresas dos participantes, sem repetições.
 
